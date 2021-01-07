@@ -1,5 +1,4 @@
-from turtle import Turtle, Screen
-import time
+from turtle import Turtle
 
 START_POSITION = [(0, 0), (-20, 0), (-40, 0)]
 DOWN = 270
@@ -15,17 +14,17 @@ class Snake:
 
     def creat_snake(self):
         for position in START_POSITION:
-            new_segment = Turtle("square")
-            new_segment.color("white")
-            new_segment.penup()
-            new_segment.goto(position)
-            self.segments.append(new_segment)
+            self.add_segment(position)
 
-    # def new_segment(self):
-    #     new_segment = Turtle("square")
-    #     new_segment.color("white")
-    #     new_segment.penup()
-    #     self.segments.append(new_segment)
+    def add_segment(self, position):
+        new_segment = Turtle("square")
+        new_segment.color("white")
+        new_segment.penup()
+        new_segment.goto(position)
+        self.segments.append(new_segment)
+
+    def extend(self):
+        self.add_segment(self.segments[-1].position())
 
     def go_snake(self):
         for seg_num in range(len(self.segments) - 1, 0, -1):
@@ -50,20 +49,3 @@ class Snake:
         if self.segments[0].heading() != LEFT:
             self.segments[0].setheading(RIGHT)
 
-
-if __name__ == '__main__':
-    screen = Screen()
-    screen.setup(width=600, height=600)
-    screen.bgcolor("black")
-    screen.title("My Snake Game")
-    screen.tracer(0)
-
-    snake = Snake()
-    snake.creat_snake()
-    game_is_on = True
-    while game_is_on:
-        time.sleep(0.1)
-        screen.update()
-        snake.go_snake()
-
-    screen.exitonclick()
